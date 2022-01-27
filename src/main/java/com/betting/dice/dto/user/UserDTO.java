@@ -10,6 +10,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class UserDTO extends BaseDTO<UUID> {
     private String name;
     private BigDecimal balance;

@@ -9,9 +9,11 @@ import com.betting.dice.mapper.*;
 import com.betting.dice.repositories.UserRepository;
 import com.betting.dice.services.interfaces.ICreate;
 import com.betting.dice.services.interfaces.IDelete;
+import com.betting.dice.services.interfaces.IFind;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,9 +21,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@Log4j2
+@Qualifier(value = "userService")
 @AllArgsConstructor
-public class UserService implements ICreate<UserDTO, CreateUserDTO>, IDelete<UUID> {
+public class UserService implements ICreate<UserDTO, CreateUserDTO>, IDelete<UUID>, IFind<UUID, UserDTO> {
 
     private final UserMapper userMapper;
     private final UpdateUserMapper updateUserMapper;

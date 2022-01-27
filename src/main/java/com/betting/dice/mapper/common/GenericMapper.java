@@ -1,5 +1,6 @@
 package com.betting.dice.mapper.common;
 
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.MappingTarget;
 
 import java.util.List;
