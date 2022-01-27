@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
 public class CreateUserDTO {
     @NotEmpty(message = "Informe o nome")
     private String name;

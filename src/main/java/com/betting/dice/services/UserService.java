@@ -19,19 +19,21 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
 @Log4j2
+@AllArgsConstructor
 public class UserService implements ICreate<UserDTO, CreateUserDTO>, IDelete<UUID> {
 
     private final UserMapper userMapper;
     private final UpdateUserMapper updateUserMapper;
     private final UserRepository userRepository;
-    private final CreateUserMapper createUserMapper;
 
     @Override
     public UserDTO create(CreateUserDTO createUserDTO){
-        User user = userRepository.save(createUserMapper.mapToEntity(createUserDTO));
-        UserDTO userDTO = userMapper.mapToDTO(user);
+        User user = User.builder()
+                .name(createUserDTO.getName())
+                .balance(createUserDTO.getBalance())
+                .build();
+        UserDTO userDTO = userMapper.mapToDTO(userRepository.save(user));
         return userDTO;
     }
 
