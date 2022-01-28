@@ -5,12 +5,12 @@ import com.betting.dice.dto.bet.BetDTO;
 import com.betting.dice.dto.bet.CreateBetDTO;
 import com.betting.dice.dto.user.UserDTO;
 import com.betting.dice.entities.Bet;
-import com.betting.dice.entities.User;
 import com.betting.dice.excpetions.DataNotFoundException;
 import com.betting.dice.mapper.BetMapper;
 import com.betting.dice.mapper.UserMapper;
 import com.betting.dice.repositories.BetRepository;
 import com.betting.dice.services.interfaces.ICreate;
+import com.betting.dice.services.interfaces.IDelete;
 import com.betting.dice.services.interfaces.IFind;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -24,8 +24,7 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @Service
-@Log4j2
-public class BetService implements ICreate<BetDTO, CreateBetDTO>, IFind<UUID, BetDTO>{
+public class BetService implements ICreate<BetDTO, CreateBetDTO>, IFind<UUID, BetDTO>, IDelete<UUID> {
 
     private final UserMapper userMapper;
     private final BetMapper betMapper;
@@ -62,4 +61,18 @@ public class BetService implements ICreate<BetDTO, CreateBetDTO>, IFind<UUID, Be
     public BetDTO findById(UUID uuid) throws DataNotFoundException {
         return betMapper.mapToDTO(this.find(uuid));
     }
+
+    public List<BetDTO> findBetByUser(UUID userId) throws DataNotFoundException{
+        return betMapper.mapToDTO(betRepository.findByUser(userId));
+    }
+
+    @Override
+    public void delete(UUID uuid) {
+        int status = betRepository.deleteByIdAndWinIsNull(uuid);
+
+        if (status == 0) {
+            throw new DataNotFoundException("Bet not found");
+        }
+    }
+
 }
